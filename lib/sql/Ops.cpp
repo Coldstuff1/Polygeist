@@ -33,10 +33,8 @@
 #include "mlir/Dialect/MemRef/IR/MemRef.h"
 #include "mlir/Dialect/OpenMP/OpenMPDialect.h"
 #include "mlir/Dialect/SCF/IR/SCF.h"
-#include "mlir/IR/BlockAndValueMapping.h"
 #include "mlir/IR/Dominance.h"
 #include "mlir/IR/IntegerSet.h"
-#include "mlir/Transforms/SideEffectUtils.h"
 
 #include "llvm/ADT/SetVector.h"
 #include "llvm/Support/Debug.h"
