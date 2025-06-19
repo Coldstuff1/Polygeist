@@ -12,6 +12,7 @@ namespace sql {
 
 std::unique_ptr<Pass> createSQLLowerPass();
 std::unique_ptr<Pass>  createSQLRaisingPass();
+void registersqlPasses();
 } // namespace sql
 } // namespace mlir
 
