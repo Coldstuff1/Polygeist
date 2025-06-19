@@ -10,5 +10,5 @@ module {
 }
 
 // CHECK-LABEL: func.func @test_or()
-// CHECK: %0 = "sql.or"
-// CHECK: return %0
+// CHECK: %[[OR:.+]] = "sql.or"(%[[A:.+]], %[[B:.+]]) : (!sql.bool, !sql.bool) -> !sql.bool
+// CHECK: return %[[OR]] : !sql.bool

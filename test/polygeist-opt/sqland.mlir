@@ -10,5 +10,5 @@ module {
 }
 
 // CHECK-LABEL: func.func @test_and()
-// CHECK: %0 = "sql.and"
-// CHECK: return %0
+// CHECK: %[[AND:.+]] = "sql.and"(%[[A:.+]], %[[B:.+]]) : (!sql.bool, !sql.bool) -> !sql.bool
+// CHECK: return %[[AND]] : !sql.bool

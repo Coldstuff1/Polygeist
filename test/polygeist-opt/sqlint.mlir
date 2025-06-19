@@ -1,4 +1,4 @@
-// RUN: polygeist-opt --sql-lower --sql-raising --allow-unregistered-dialect %s | FileCheck %s
+// RUN: polygeist-opt --allow-unregistered-dialect %s | FileCheck %s
 
 module {
   func.func @test_int() -> !sql.expr {

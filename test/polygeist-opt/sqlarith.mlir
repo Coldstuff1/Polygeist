@@ -10,5 +10,7 @@ module {
 }
 
 // CHECK-LABEL: func.func @test_arith()
-// CHECK: %0 = "sql.arith"
-// CHECK: return %0
+// CHECK: %[[A:.+]] = "sql.column"() <{expr = "a"}> : () -> !sql.expr
+// CHECK: %[[B:.+]] = "sql.column"() <{expr = "b"}> : () -> !sql.expr
+// CHECK: %[[ARITH:.+]] = "sql.arith"(%[[A]], %[[B]]) <{op = "+"}> : (!sql.expr, !sql.expr) -> !sql.expr
+// CHECK: return %[[ARITH]] : !sql.expr
