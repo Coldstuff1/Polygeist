@@ -454,7 +454,13 @@ void SQLLower::runOnOperation() {
 
   if (!dyn_cast_or_null<func::FuncOp>(symbolTable.lookupSymbolIn(
           module, builder.getStringAttr("PQntuples")))) {
-    mlir::Type argtypes[] = {MemRefType::get({-1}, builder.getI8Type())};
+    auto memrefTy = MemRefType::get({-1}, builder.getI8Type(), nullptr, 0);
+    assert(MemRefType::verify([&](const Twine &msg) {
+      llvm::errs() << "MemRefType verify failed: " << msg << "\n";
+      return failure();
+    }, memrefTy) == success());
+
+    mlir::Type argtypes[] = {MemRefType::get({-1}, builder.getI8Type())}; // erroring
     mlir::Type rettypes[] = {builder.getI64Type()};
 
     auto fn = builder.create<func::FuncOp>(
