@@ -15,7 +15,13 @@
 #include "clang/Sema/Sema.h"
 
 #include "llvm/ADT/DenseMap.h"
+#include "llvm/ADT/SmallVector.h"
+#include <clang/AST/Stmt.h>
+#include <list>
+#include <llvm/ADT/SmallString.h>
+#include <variant>
 
+#include "HLSPragma.h"
 /// POD holds information processed from the lower_to pragma.
 struct LowerToInfo {
   llvm::StringMap<std::string> SymbolTable;
@@ -92,5 +98,6 @@ void addPragmaLowerToHandlers(clang::Preprocessor &PP, LowerToInfo &LTInfo);
 void addPragmaScopHandlers(clang::Preprocessor &PP, ScopLocList &scopLocList);
 void addPragmaEndScopHandlers(clang::Preprocessor &PP,
                               ScopLocList &scopLocList);
+void addPragmaHLSHandler(clang::Preprocessor &PP, HLSInfoList &infoList);
 
 #endif

@@ -201,6 +201,12 @@ void MLIRScanner::buildAffineLoopImpl(
   // TODO: set the value of the iteration value to the final bound at the
   // end of the loop.
   builder.setInsertionPoint(oldblock, oldpoint);
+
+  // Add pragma HLS attributes.
+  auto infoList = Glob.hlsInfoList.extractRegionPragmas(fors->getBeginLoc(),
+                                                        fors->getEndLoc());
+  for (auto namedAttr : getHLSNamedAttrs(builder, infoList))
+    affineOp->setAttr(namedAttr.getName(), namedAttr.getValue());
 }
 
 void MLIRScanner::buildAffineLoop(
@@ -1019,8 +1025,7 @@ ValueCategory MLIRScanner::VisitDeclStmt(clang::DeclStmt *decl) {
     if (auto *vd = dyn_cast<VarDecl>(sub)) {
       VisitVarDecl(vd);
     } else if (isa<TypeAliasDecl, RecordDecl, StaticAssertDecl, TypedefDecl,
-                   UsingDecl, UsingDirectiveDecl, EnumConstantDecl, EnumDecl>(
-                   sub)) {
+                   UsingDecl, UsingDirectiveDecl>(sub)) {
     } else {
       emitError(getMLIRLocation(decl->getBeginLoc()))
           << " + visiting unknonwn sub decl stmt\n";

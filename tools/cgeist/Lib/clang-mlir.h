@@ -68,6 +68,7 @@ struct MLIRASTConsumer : public ASTConsumer {
   bool error;
   ScopLocList scopLocList;
   LowerToInfo LTInfo;
+  HLSInfoList hlsInfoList;
 
   /// The stateful type translator (contains named structs).
   LLVM::TypeFromLLVMIRTranslator typeTranslator;
@@ -96,6 +97,7 @@ struct MLIRASTConsumer : public ASTConsumer {
     addPragmaScopHandlers(PP, scopLocList);
     addPragmaEndScopHandlers(PP, scopLocList);
     addPragmaLowerToHandlers(PP, LTInfo);
+    addPragmaHLSHandler(PP, hlsInfoList);
   }
 
   ~MLIRASTConsumer() {}
@@ -229,12 +231,6 @@ public:
   mlir::OpBuilder &getBuilder();
 
   mlir::Value getConstantIndex(int x);
-
-  ValueCategory createComplexFloat(mlir::Location loc, mlir::Value real,
-                                   mlir::Value imag, clang::QualType cty);
-  mlir::Value getComplexPart(mlir::Location loc, mlir::Value complex, int fnum);
-  ValueCategory getComplexPartRef(mlir::Location loc, mlir::Value complex,
-                                  int fnum);
 
   ValueCategory VisitDeclStmt(clang::DeclStmt *decl);
 
@@ -405,8 +401,6 @@ public:
                                    ValueCategory tostore);
 
   ValueCategory VisitArrayInitIndexExpr(clang::ArrayInitIndexExpr *expr);
-
-  ValueCategory VisitSizeOfPackExpr(clang::SizeOfPackExpr *e);
 
   ValueCategory CommonFieldLookup(mlir::Location loc, clang::QualType OT,
                                   const FieldDecl *FD, mlir::Value val,

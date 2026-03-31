@@ -24,12 +24,13 @@ add_clang_executable(cgeist
   "${LLVM_SOURCE_DIR}/../clang/tools/driver/cc1as_main.cpp"
   "${LLVM_SOURCE_DIR}/../clang/tools/driver/cc1gen_reproducer_main.cpp"
   Lib/pragmaHandler.cc
+  Lib/HLSPragma.cc
   Lib/AffineUtils.cc
   Lib/ValueCategory.cc
   Lib/utils.cc
   Lib/IfScope.cc
   Lib/TypeUtils.cc
-  Lib/CGCall.cc 
+  Lib/CGCall.cc
 )
 if(POLYGEIST_ENABLE_CUDA)
   target_compile_definitions(cgeist
