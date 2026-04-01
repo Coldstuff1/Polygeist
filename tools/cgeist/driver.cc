@@ -548,10 +548,7 @@ int main(int argc, char **argv) {
 
   llvm::Triple triple;
   llvm::DataLayout DL("");
-  llvm::Triple gpuTriple;
-  llvm::DataLayout gpuDL("");
-  parseMLIR(argv[0], files, cfunction, includeDirs, defines, module, triple, DL,
-            gpuTriple, gpuDL);
+  parseMLIR(argv[0], files, cfunction, includeDirs, defines, module, triple, DL);
 
   auto convertGepInBounds = [](llvm::Module &llvmModule) {
     for (auto &F : llvmModule) {
