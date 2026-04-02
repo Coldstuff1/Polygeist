@@ -4,6 +4,7 @@
 #include "mlir/IR/Builders.h"
 #include "mlir/IR/Operation.h"
 #include "clang/Basic/SourceLocation.h"
+#include "clang/Basic/SourceManager.h"
 #include <variant>
 
 struct RegionPragma {
@@ -62,13 +63,15 @@ public:
 
   llvm::SmallVector<std::pair<std::string, AttrKind>, 4>
   extractRegionPragmas(clang::SourceLocation beginLoc,
-                       clang::SourceLocation endLoc) {
+                       clang::SourceLocation endLoc,
+                       clang::SourceManager &SM) {
     llvm::SmallVector<std::pair<std::string, AttrKind>, 4> attrs;
     for (auto &info : regionInfoList) {
       if (info.visited)
         continue;
       auto loc = std::get<RegionPragma>(info.pragmaKind).loc;
-      if (beginLoc < loc && loc < endLoc) {
+      if (SM.isBeforeInTranslationUnit(beginLoc, loc) &&
+          SM.isBeforeInTranslationUnit(loc, endLoc)) {
         attrs.append(info.attrs);
         info.visited = true;
       }

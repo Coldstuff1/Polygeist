@@ -203,8 +203,9 @@ void MLIRScanner::buildAffineLoopImpl(
   builder.setInsertionPoint(oldblock, oldpoint);
 
   // Add pragma HLS attributes.
-  auto infoList = Glob.hlsInfoList.extractRegionPragmas(fors->getBeginLoc(),
-                                                        fors->getEndLoc());
+  auto infoList = Glob.hlsInfoList.extractRegionPragmas(
+      fors->getBeginLoc(), fors->getEndLoc(),
+      Glob.CGM.getContext().getSourceManager());
   for (auto namedAttr : getHLSNamedAttrs(builder, infoList))
     affineOp->setAttr(namedAttr.getName(), namedAttr.getValue());
 }
