@@ -252,7 +252,7 @@ parsePragmaAttrs(clang::Preprocessor &PP, clang::Token &currentTok,
     PP.Lex(currentTok); // value
     AttrKind value;
     if (currentTok.isLiteral()) {
-      auto s = std::string(currentTok.getLiteralData());
+      auto s = std::string(currentTok.getLiteralData(), currentTok.getLength());
       value = std::stoi(s);
     } else if (currentTok.isAnyIdentifier()) {
       auto s = currentTok.getIdentifierInfo()->getName().str();
